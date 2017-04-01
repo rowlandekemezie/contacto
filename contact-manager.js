@@ -1,5 +1,12 @@
 const program = require('commander');
-const { getAllContacts, addContacts } = require('./business-logic'); 
+const { 
+  addContact, 
+  getContact, 
+  addMultipleContacts, 
+  getContactList,
+  updateContact,
+  deleteContact  
+} = require('./business-logic'); 
 
     program
       .version('0.0.1')
