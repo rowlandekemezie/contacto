@@ -1,41 +1,44 @@
 const mongoose = require('mongoose');
-const assert = require('assert'); // N.B: Part of Nodejs core library
-mongoose.Promise = global.Promise;
+const assert = require('assert'); // N.B: Assert module comes bundled with NodeJS.
+mongoose.Promise = global.Promise; // Allows us to use Native promises without throwing error.
 
+// Connect to a single MongoDB instance. The connection string could be that of remote server
 mongoose.connect('mongodb://localhost:27017/contact-manager');
 
-// Create a contact Schema
+// Define a contact Schema
 const contactSchema = mongoose.Schema({
-	name: {type: String}
-})
+	firstname: { type: String },
+	lastname: { type: String },
+	phone: { type: Number },
+	email: { type: String }
+});
 
-// Define our model as an interface with the database
-const Model = mongoose.model('Contact', contactSchema);
+// Define model as an interface with the database
+const Contact = mongoose.model('Contact', contactSchema);
 
 
 /**
  * @function  [addContact]
- * @returns [status]
+ * @returns {String} Status
  */
-const addContact = ({}) => {
-	const newModel = {name: 'Excelent'};
-	Model.create(newModel, (err, newuse) => {
+const addContact = (contact) => {
+	Contact.create(contact, (err) => {
 		assert.equal(null, err);
-		console.log('New contact added', newuse);	
-	})
-}
+		console.log('New contact added');	
+	});
+};
 
 /**
  * @function  [getContact]
- * @returns [contact]
+ * @returns {Json} 
  */
 const getContact = (name) => {
-	Model.find({$or: [{firstname: name}, {lastname: name}]})
+	Contact.find({$or: [{firstname: name}, {lastname: name}]})
 	.exec((err, contact) => {
 		assert.equal(null, err);
-		console.log(contacts, 'contacts');
-	})
-}
+		console.log(contact);
+	});
+};
 
 // This is not a BULK insert - the underlying mongoose implementation does loops through all of the elements and commits them one by one
 
@@ -44,7 +47,7 @@ const getContact = (name) => {
  * @return {Array} contacts
  */
 const addMultipleContacts = (contacts) => {
-	Model.create(contacts, (err, contacts) => {
+	Contact.create(contacts, (err, contacts) => {
 		assert(null, err);
 		console.log(contacts, 'contacts')
 	})
@@ -55,7 +58,7 @@ const addMultipleContacts = (contacts) => {
  * @returns [contactlist]
  */
 const getContactList = () => {
-	Model.find({})
+	Contact.find({})
 	.exec((err, contacts) => {
 		assert(null, err);
 		console.log(contacts, 'contacts');
@@ -67,13 +70,25 @@ const getContactList = () => {
  * @returns [contactlist]
  */
 const updateContact = () => {
-	Model.find({})
-	.exec((err, contacts) => {
+	Contact.find({})
+	.exec((err, contact) => {
 		assert(null, err);
-		console.log(contacts, 'contacts');
+		console.log(contact, 'updated contacts');
 	})
 }
- 
+
+/**
+ * @function  [deleteContact]
+ * @returns {String} status
+ */
+const deleteContact = (name) => {
+	Contact.remove({$or: [{firstname: name }, {lastname: name}]})
+	.exec((err, contact) => {
+		assert(null, err);
+		console.log(contact, 'deleted contact');
+	})
+}
+
 // Export all methods
 module.exports = {   
 	addContact, 

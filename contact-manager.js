@@ -1,4 +1,6 @@
 const program = require('commander');
+const { prompt } = require('inquirer');
+
 const { 
   addContact, 
   getContact, 
@@ -8,28 +10,51 @@ const {
   deleteContact  
 } = require('./business-logic'); 
 
-    program
-      .version('0.0.1')
-      .description('Contact management system')
-    
-    program
-      .command('getAllContacts')
-      .alias('ga')
-      .description('Get all contact')
-      .action(() => {
-        console.log('awesome man')
-        getAllContacts()
-      })
+const questions = [
+  {
+    type : 'input',
+    name : 'firstname',
+    message : 'Contact\'s firstname ..?'
+  },
+  {
+    type : 'input',
+    name : 'lastname',
+    message : 'Contact\'s lastname ..?'
+  },
+  {
+    type : 'input',
+    name : 'phone no',
+    message : 'Contact\'s phone number ..?'
+  },
+  {
+    type : 'input',
+    name : 'email address',
+    message : 'Contact\'s email address ..?'
+  }
 
-    program
-      .command('addContacts')
-      .alias('ac')
-      .description('Add contact')
-      .action(() => {
-        console.log('tessting man')
-        addContacts()
-      })
+];
 
-    program.parse(process.argv)
+program
+  .version('0.0.1')
+  .description('Contact management system')
+
+program
+  .command('addContact')
+  .alias('ac')
+  .description('Add a contact')
+  .action(() => {
+    prompt(questions).then((answers) =>
+      addContact(answers)
+    );
+  });
+
+program
+  .command('getContact <name>')
+  .alias('gc')
+  .description('Get contact')
+  .action((name) => {
+    getContact(name)
+  })
+
+program.parse(process.argv)
     
-    // console.log(program.list);
