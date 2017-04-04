@@ -24,7 +24,8 @@ const Contact = mongoose.model('Contact', contactSchema);
 const addContact = (contact) => {
 	Contact.create(contact, (err) => {
 		assert.equal(null, err);
-		console.log('New contact added');	
+		console.log('New contact added');
+		process.exit(0)
 	});
 };
 
@@ -37,6 +38,7 @@ const getContact = (name) => {
 	.exec((err, contact) => {
 		assert.equal(null, err);
 		console.log(contact);
+		process.exit(0);
 	});
 };
 

@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "preferGlobal": true,
+  "bin": {
+    "contact-manager": "./contact-manager"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
