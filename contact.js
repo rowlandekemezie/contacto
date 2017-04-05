@@ -42,7 +42,7 @@ program
 
 program
   .command('addContact')
-  .alias('ac')
+  .alias('c')
   .description('Add a contact')
   .action(() => {
     prompt(questions).then((answers) =>
@@ -52,7 +52,7 @@ program
 
 program
   .command('getContact <name>')
-  .alias('gc')
+  .alias('r')
   .description('Get contact')
   .action((name) => {
     getContact(name)
@@ -60,7 +60,7 @@ program
 
 program
   .command('getContactList')
-  .alias('gl')
+  .alias('l')
   .description('Get all contacts')
   .action(() => {
     getContactList()
