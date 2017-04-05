@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const program = require('commander');
 const { prompt } = require('inquirer');
 
@@ -8,7 +10,7 @@ const {
   getContactList,
   updateContact,
   deleteContact  
-} = require('./business-logic'); 
+} = require('./logic'); 
 
 const questions = [
   {
@@ -23,12 +25,12 @@ const questions = [
   },
   {
     type : 'input',
-    name : 'phone no',
+    name : 'phone',
     message : 'Contact\'s phone number ..?'
   },
   {
     type : 'input',
-    name : 'email address',
+    name : 'email',
     message : 'Contact\'s email address ..?'
   }
 
@@ -55,6 +57,15 @@ program
   .action((name) => {
     getContact(name)
   })
+
+program
+  .command('getContactList')
+  .alias('gl')
+  .description('Get all contacts')
+  .action(() => {
+    getContactList()
+  })
+
 
 program.parse(process.argv)
     

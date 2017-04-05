@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost:27017/contact-manager');
 const contactSchema = mongoose.Schema({
 	firstname: { type: String },
 	lastname: { type: String },
-	phone: { type: Number },
+	phone: { type: String },
 	email: { type: String }
 });
 
@@ -60,10 +60,12 @@ const addMultipleContacts = (contacts) => {
  * @returns [contactlist]
  */
 const getContactList = () => {
-	Contact.find({})
+	Contact.find()
 	.exec((err, contacts) => {
-		assert(null, err);
-		console.log(contacts, 'contacts');
+		console.log(err, contacts)
+		assert.equal(null, err);
+		console.log(contacts);
+		process.exit(0);
 	})
 }
 
