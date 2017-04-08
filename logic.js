@@ -6,12 +6,17 @@ mongoose.Promise = global.Promise; // Allows us to use Native promises without t
 // We assign the connection instance to a constant to be used later in closing the connection
 const db = mongoose.connect('mongodb://localhost:27017/contact-manager');
 
+// Convert value to to lowercase
+function toLower(v) {
+	return v.toLowerCase();
+}
+
 // Define a contact Schema
 const contactSchema = mongoose.Schema({
-	firstname: { type: String },
-	lastname: { type: String },
-	phone: { type: String },
-	email: { type: String }
+	firstname: { type: String, set: toLower },
+	lastname: { type: String, set: toLower },
+	phone: { type: String, set: toLower },
+	email: { type: String, set: toLower }
 });
 
 // Define model as an interface with the database
@@ -35,7 +40,7 @@ const addContact = (contact) => {
  * @returns {Json} contacts
  */
 const getContact = (name) => {
-	Contact.find({$or: [{firstname: name}, {lastname: name}]})
+	Contact.find({$or: [{firstname: { $regex: name, $options: 'i' }}, {lastname: { $regex: name, $options: 'i' }}]})
 	.exec((err, contact) => {
 		assert.equal(null, err);
 		console.info(contact);
