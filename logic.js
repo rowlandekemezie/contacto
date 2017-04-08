@@ -3,7 +3,8 @@ const assert = require('assert'); // N.B: Assert module comes bundled with NodeJ
 mongoose.Promise = global.Promise; // Allows us to use Native promises without throwing error.
 
 // Connect to a single MongoDB instance. The connection string could be that of remote server
-mongoose.connect('mongodb://localhost:27017/contact-manager');
+// We assign the connection instance to a constant to be used later in closing the connection
+const db = mongoose.connect('mongodb://localhost:27017/contact-manager');
 
 // Define a contact Schema
 const contactSchema = mongoose.Schema({
@@ -24,21 +25,22 @@ const Contact = mongoose.model('Contact', contactSchema);
 const addContact = (contact) => {
 	Contact.create(contact, (err) => {
 		assert.equal(null, err);
-		console.log('New contact added');
-		process.exit(0)
+		console.info('New contact added');
+		db.disconnect();
 	});
 };
 
 /**
  * @function  [getContact]
- * @returns {Json} 
+ * @returns {Json} contacts
  */
 const getContact = (name) => {
 	Contact.find({$or: [{firstname: name}, {lastname: name}]})
 	.exec((err, contact) => {
 		assert.equal(null, err);
-		console.log(contact);
-		process.exit(0);
+		console.info(contact);
+		console.info(`${contact.length} matches`);
+		db.disconnect();
 	});
 };
 
@@ -50,46 +52,50 @@ const getContact = (name) => {
  */
 const addMultipleContacts = (contacts) => {
 	Contact.create(contacts, (err, contacts) => {
-		assert(null, err);
-		console.log(contacts, 'contacts')
-	})
-}
-
-/**
- * @function  [getContactList]
- * @returns [contactlist]
- */
-const getContactList = () => {
-	Contact.find()
-	.exec((err, contacts) => {
-		console.log(err, contacts)
 		assert.equal(null, err);
-		console.log(contacts);
-		process.exit(0);
+		console.info(contacts, 'contacts')
+		db.disconnect();
 	})
 }
 
+
 /**
  * @function  [getContactList]
- * @returns [contactlist]
+ * @returns {Sting} status
  */
-const updateContact = () => {
-	Contact.find({})
-	.exec((err, contact) => {
-		assert(null, err);
-		console.log(contact, 'updated contacts');
-	})
-}
+const updateContact = (_id, contact) => {
+	Contact.update({ _id }, contact)
+	.exec((err, status) => {
+		assert.equal(null, err);
+		console.info('Updated successfully');
+		db.disconnect();
+	});
+};
 
 /**
  * @function  [deleteContact]
  * @returns {String} status
  */
-const deleteContact = (name) => {
-	Contact.remove({$or: [{firstname: name }, {lastname: name}]})
-	.exec((err, contact) => {
-		assert(null, err);
-		console.log(contact, 'deleted contact');
+const deleteContact = (_id) => {
+	Contact.remove({ _id })
+	.exec((err, status) => {
+		assert.equal(null, err);
+		console.info('Deleted successfully');
+		db.disconnect();
+	})
+}
+
+/**
+ * @function  [getContactList]
+ * @returns [contactlist] contacts
+ */
+const getContactList = () => {
+	Contact.find()
+	.exec((err, contacts) => {
+		assert.equal(null, err);
+		console.info(contacts);
+		console.info(`${contacts.length} matches`);
+		db.disconnect();
 	})
 }
 
@@ -101,4 +107,5 @@ module.exports = {
   getContactList,
   updateContact,
   deleteContact 
-}
+};
+

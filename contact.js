@@ -16,22 +16,22 @@ const questions = [
   {
     type : 'input',
     name : 'firstname',
-    message : 'Contact\'s firstname ..?'
+    message : 'Contact\'s firstname ..'
   },
   {
     type : 'input',
     name : 'lastname',
-    message : 'Contact\'s lastname ..?'
+    message : 'Contact\'s lastname ..'
   },
   {
     type : 'input',
     name : 'phone',
-    message : 'Contact\'s phone number ..?'
+    message : 'Contact\'s phone number ..'
   },
   {
     type : 'input',
     name : 'email',
-    message : 'Contact\'s email address ..?'
+    message : 'Contact\'s email address ..'
   }
 
 ];
@@ -42,29 +42,39 @@ program
 
 program
   .command('addContact')
-  .alias('c')
+  .alias('a')
   .description('Add a contact')
   .action(() => {
     prompt(questions).then((answers) =>
-      addContact(answers)
-    );
+      addContact(answers));
   });
 
 program
   .command('getContact <name>')
   .alias('r')
   .description('Get contact')
-  .action((name) => {
-    getContact(name)
-  })
+  .action((name) => getContact(name));
+
+program
+  .command('updateContact <_id>')
+  .alias('u')
+  .description('Update contact')
+  .action((_id) => {
+    prompt(questions).then((answers) =>
+      updateContact(_id, answers));
+  });
+
+program
+  .command('deleteContact <_id>')
+  .alias('d')
+  .description('Delete contact')
+  .action((_id) => deleteContact(_id));
 
 program
   .command('getContactList')
   .alias('l')
-  .description('Get all contacts')
-  .action(() => {
-    getContactList()
-  })
+  .description('List contacts')
+  .action(() => getContactList());
 
 
 program.parse(process.argv)
