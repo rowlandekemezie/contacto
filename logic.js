@@ -8,15 +8,15 @@ const db = mongoose.connect('mongodb://localhost:27017/contact-manager');
 
 // Convert value to to lowercase
 function toLower(v) {
-	return v.toLowerCase();
+  return v.toLowerCase();
 }
 
 // Define a contact Schema
 const contactSchema = mongoose.Schema({
-	firstname: { type: String, set: toLower },
-	lastname: { type: String, set: toLower },
-	phone: { type: String, set: toLower },
-	email: { type: String, set: toLower }
+  firstname: { type: String, set: toLower },
+  lastname: { type: String, set: toLower },
+  phone: { type: String, set: toLower },
+  email: { type: String, set: toLower }
 });
 
 // Define model as an interface with the database
@@ -28,11 +28,11 @@ const Contact = mongoose.model('Contact', contactSchema);
  * @returns {String} Status
  */
 const addContact = (contact) => {
-	Contact.create(contact, (err) => {
-		assert.equal(null, err);
-		console.info('New contact added');
-		db.disconnect();
-	});
+  Contact.create(contact, (err) => {
+    assert.equal(null, err);
+    console.info('New contact added');
+    db.disconnect();
+  });
 };
 
 /**
@@ -40,13 +40,16 @@ const addContact = (contact) => {
  * @returns {Json} contacts
  */
 const getContact = (name) => {
-	Contact.find({$or: [{firstname: { $regex: name, $options: 'i' }}, {lastname: { $regex: name, $options: 'i' }}]})
-	.exec((err, contact) => {
-		assert.equal(null, err);
-		console.info(contact);
-		console.info(`${contact.length} matches`);
-		db.disconnect();
-	});
+  // Define search criteria
+  const search = new RegExp(name, 'i');
+
+  Contact.find({$or: [{firstname: search }, {lastname: search }]})
+  .exec((err, contact) => {
+    assert.equal(null, err);
+    console.info(contact);
+    console.info(`${contact.length} matches`);
+    db.disconnect();
+  });
 };
 
 // This is not a BULK insert - the underlying mongoose implementation does loops through all of the elements and commits them one by one
@@ -56,11 +59,11 @@ const getContact = (name) => {
  * @return {Array} contacts
  */
 const addMultipleContacts = (contacts) => {
-	Contact.create(contacts, (err, contacts) => {
-		assert.equal(null, err);
-		console.info(contacts, 'contacts')
-		db.disconnect();
-	})
+  Contact.create(contacts, (err, contacts) => {
+    assert.equal(null, err);
+    console.info(contacts, 'contacts')
+    db.disconnect();
+  })
 }
 
 
@@ -69,12 +72,12 @@ const addMultipleContacts = (contacts) => {
  * @returns {Sting} status
  */
 const updateContact = (_id, contact) => {
-	Contact.update({ _id }, contact)
-	.exec((err, status) => {
-		assert.equal(null, err);
-		console.info('Updated successfully');
-		db.disconnect();
-	});
+  Contact.update({ _id }, contact)
+  .exec((err, status) => {
+    assert.equal(null, err);
+    console.info('Updated successfully');
+    db.disconnect();
+  });
 };
 
 /**
@@ -82,12 +85,12 @@ const updateContact = (_id, contact) => {
  * @returns {String} status
  */
 const deleteContact = (_id) => {
-	Contact.remove({ _id })
-	.exec((err, status) => {
-		assert.equal(null, err);
-		console.info('Deleted successfully');
-		db.disconnect();
-	})
+  Contact.remove({ _id })
+  .exec((err, status) => {
+    assert.equal(null, err);
+    console.info('Deleted successfully');
+    db.disconnect();
+  })
 }
 
 /**
@@ -95,18 +98,18 @@ const deleteContact = (_id) => {
  * @returns [contactlist] contacts
  */
 const getContactList = () => {
-	Contact.find()
-	.exec((err, contacts) => {
-		assert.equal(null, err);
-		console.info(contacts);
-		console.info(`${contacts.length} matches`);
-		db.disconnect();
-	})
+  Contact.find()
+  .exec((err, contacts) => {
+    assert.equal(null, err);
+    console.info(contacts);
+    console.info(`${contacts.length} matches`);
+    db.disconnect();
+  })
 }
 
 // Export all methods
 module.exports = {   
-	addContact, 
+  addContact, 
   getContact, 
   addMultipleContacts, 
   getContactList,
