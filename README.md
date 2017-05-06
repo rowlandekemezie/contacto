@@ -13,8 +13,8 @@ Contacto is a command line tool contact management system built with Node.js, Mo
 ## Installation
 1. Clone the repository [here](https://github.com/mentrie/contacto)
 2. Navigate to your terminal and change your directory to the `contacto`.
-3. Run `npm install` to install node dependencies.
-4. Run `npm link` to creates a symbolic link between project directory and executable command.
+3. Run `yarn` to install node dependencies.
+4. Run `yarn link` to creates a symbolic link between project directory and executable command.
 
 ## Usage
 ```

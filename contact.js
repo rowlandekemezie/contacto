@@ -16,22 +16,22 @@ const questions = [
   {
     type : 'input',
     name : 'firstname',
-    message : 'Contact\'s firstname ..'
+    message : 'Enter firstname ..'
   },
   {
     type : 'input',
     name : 'lastname',
-    message : 'Contact\'s lastname ..'
+    message : 'Enter lastname ..'
   },
   {
     type : 'input',
     name : 'phone',
-    message : 'Contact\'s phone number ..'
+    message : 'Enter phone number ..'
   },
   {
     type : 'input',
     name : 'email',
-    message : 'Contact\'s email address ..'
+    message : 'Enter email address ..'
   }
 
 ];
