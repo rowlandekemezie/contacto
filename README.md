@@ -1,6 +1,9 @@
 # Contacto
 Contacto is a command line tool contact management system built with Node.js, MongoDB, Commanderjs, and Inquirerjs. It allows you to `create` and `manage` your contact from the command line.
 
+### Demo 
+![alt text](http://i.imgur.com/O1C07NL.gif "Contacto Demo")
+
 
 ## Prerequisites
 1. Install [Node.js](https://nodejs.org/en/)
