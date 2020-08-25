@@ -25,7 +25,7 @@ jobs:
       - name: gitslice-pull
         working-directory: ~/repo
         run: |
-          cd ~ && git clone https://github.com/murcul/git-slice.git && cd git-slice && npm install
+          git clone https://github.com/murcul/git-slice.git && cd git-slice && npm install
           git config --global user.email "coherent@murcul.com"
           git config --global user.name "GitStart Bot"
           git config ls
