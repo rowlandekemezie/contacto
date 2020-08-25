@@ -24,11 +24,11 @@ jobs:
       
       - name: gitslice-pull
         run: |
-          npm install -g gitslice
+          npm install -g git-slice
           git config --global user.email "coherent@murcul.com"
           git config --global user.name "GitStart Bot"
           git config -l
-          gitslice pull --username "${{ secrets.USERNAME }}" --password "${{ secrets.PASSWORD }}"
+          git-slice pull --username "${{ secrets.USERNAME }}" --password "${{ secrets.PASSWORD }}"
           git reset --hard origin/master && git pull -f origin master && ~/git-slice/bin/cli.js pull --username "${{ secrets.USERNAME }}" --password "${{ secrets.PASSWORD }}" && git push origin master
 
         
