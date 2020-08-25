@@ -23,7 +23,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       
       - name: gitslice-pull
-        working-directory: ~/repo
         run: |
           # git clone https://github.com/murcul/git-slice.git
           git config --global user.email "coherent@murcul.com"
