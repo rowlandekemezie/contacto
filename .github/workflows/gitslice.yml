@@ -1,0 +1,40 @@
+name: Gitslice CI
+
+on: 
+  workflow_dispatch:
+    inputs:
+      clientCommitMessage:
+        description: 'Commit message'     
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x]
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Specify working directory
+        uses
+      
+      - name: gitslice-pull
+        run: |
+          cd ~ && git clone https://github.com/murcul/git-slice.git && cd git-slice && npm install
+          git config --global user.email "coherent@murcul.com"
+          git config --global user.name "GitStart Bot"
+          ~/git-slice/bin/cli.js pull --username "${{ secrets.USERNAME }}" --password "${{ secrets.PASSWORD }}"
+          git reset --hard origin/master && git pull -f origin master && ~/git-slice/bin/cli.js pull --username "${{ secrets.USERNAME }}" --password "${{ secrets.PASSWORD }}" && git push origin master
+
+        
+      - name: Echo values
+        run: |
+          echo "Commit Message: ${{ github.event.inputs.clientCommitMessage }}"
+          
+      - name: gitslice-push
+        run: echo "Gitslice push"
+      
+    
