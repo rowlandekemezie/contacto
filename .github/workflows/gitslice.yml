@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
-      - name: Specify working directory
-        uses
-      
       - name: gitslice-pull
         run: |
           cd ~ && git clone https://github.com/murcul/git-slice.git && cd git-slice && npm install
